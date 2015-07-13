@@ -104,8 +104,8 @@ class mlcl_auth_saml2 {
             <head></head> \
             <body> \
               <script> \
-                localStorage.setItem(\'userdata\', \''+ JSON.stringify(usermodule.getUserObjectFromRequest(req)) + '\') \
-                console.log(localStorage.getItem(\'userdata\')); \
+                localStorage.setItem(\'userData\', \''+ JSON.stringify(usermodule.getUserObjectFromRequest(req)) + '\'); \
+                console.log(localStorage.getItem(\'userData\')); \
               </script> \
             </body> \
           </html>');
