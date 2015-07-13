@@ -52,18 +52,14 @@ class mlcl_auth_saml2 {
             if(conf.authtypes.saml2.fieldmappings) {
               let reverseMappings = {};
               _.each(Object.keys(conf.authtypes.saml2.fieldmappings), (fieldname) => {
-                if(!user.username && fieldname !== 'username') {
-                  reverseMappings[conf.authtypes.saml2.fieldmappings[fieldname]] = fieldname;
-                }
+                reverseMappings[conf.authtypes.saml2.fieldmappings[fieldname]] = fieldname;
               });
               _.each(reverseMappings, (fieldname) => {
                 _.set(user, fieldname, profile[conf.authtypes.saml2.fieldmappings[fieldname]]);
               });
             } else {
               // use predefined fieldmappings (this possibly fails)
-              if(!user.username) {
-                user.username = profile.username;
-              }
+              user.username = profile.username;
               user.name.first = profile.firstname;
               user.name.last = profile.lastname;
               user.email = profile.email;

@@ -36,18 +36,14 @@ var mlcl_auth_saml2 = (function () {
                         if (conf.authtypes.saml2.fieldmappings) {
                             var reverseMappings = {};
                             _.each(Object.keys(conf.authtypes.saml2.fieldmappings), function (fieldname) {
-                                if (!user.username && fieldname !== 'username') {
-                                    reverseMappings[conf.authtypes.saml2.fieldmappings[fieldname]] = fieldname;
-                                }
+                                reverseMappings[conf.authtypes.saml2.fieldmappings[fieldname]] = fieldname;
                             });
                             _.each(reverseMappings, function (fieldname) {
                                 _.set(user, fieldname, profile[conf.authtypes.saml2.fieldmappings[fieldname]]);
                             });
                         }
                         else {
-                            if (!user.username) {
-                                user.username = profile.username;
-                            }
+                            user.username = profile.username;
                             user.name.first = profile.firstname;
                             user.name.last = profile.lastname;
                             user.email = profile.email;
