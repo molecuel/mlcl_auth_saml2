@@ -88,8 +88,8 @@ class mlcl_auth_saml2 {
   }
 
   middleware(config, app, mod) {
-    let usermodule = molecuel.modules.user;
-    let passport = usermodule.module.passport;
+    let usermodule = molecuel.modules.user.module;
+    let passport = usermodule.passport;
     app.get('/login/saml2',
       passport.authenticate('wsfed-saml2', { failureRedirect: '/', failureFlash: false }),
       function(req, res) {

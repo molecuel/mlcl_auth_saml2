@@ -71,7 +71,7 @@ var mlcl_auth_saml2 = (function () {
     };
     mlcl_auth_saml2.prototype.middleware = function (config, app, mod) {
         var usermodule = molecuel.modules.user.module;
-        var passport = usermodule.module.passport;
+        var passport = usermodule.passport;
         app.get('/login/saml2', passport.authenticate('wsfed-saml2', { failureRedirect: '/', failureFlash: false }), function (req, res) {
             res.redirect('/');
         });
