@@ -71,6 +71,7 @@ class mlcl_auth_saml2 {
           }
           if(doc) {
             userfieldmapping(doc);
+            console.log(doc);
             doc.save(function(err) {
               done(err, doc);
             });
@@ -78,6 +79,7 @@ class mlcl_auth_saml2 {
             let user = new this.usermodel();
             user.authtype = 'saml2';
             userfieldmapping(user);
+            console.log(user);
             user.save(function(err) {
               done(err, user);
             });

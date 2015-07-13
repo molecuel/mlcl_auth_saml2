@@ -55,6 +55,7 @@ var mlcl_auth_saml2 = (function () {
                     };
                     if (doc) {
                         userfieldmapping(doc);
+                        console.log(doc);
                         doc.save(function (err) {
                             done(err, doc);
                         });
@@ -63,6 +64,7 @@ var mlcl_auth_saml2 = (function () {
                         var user = new _this.usermodel();
                         user.authtype = 'saml2';
                         userfieldmapping(user);
+                        console.log(user);
                         user.save(function (err) {
                             done(err, user);
                         });
@@ -71,23 +73,24 @@ var mlcl_auth_saml2 = (function () {
             }));
         }
     };
-    mlcl_auth_saml2.prototype.middleware = function (config, app) {
-        var usermodule = molecuel.modules.user.module;
-        var passport = usermodule.passport;
+    mlcl_auth_saml2.prototype.middleware = function (config, app, mod) {
+        var usermodule = molecuel.modules.user;
+        var passport = usermodule.module.passport;
         app.get('/login/saml2', passport.authenticate('wsfed-saml2', { failureRedirect: '/', failureFlash: false }), function (req, res) {
             res.redirect('/');
         });
         app.post('/login/saml2/callback', passport.authenticate('wsfed-saml2', { failureRedirect: '/', failureFlash: false }), function (req, res) {
+            console.log(req.user);
             res.status(200).send('\
-              <html> \
-                <head></head> \
-                <body> \
-                  <script> \
-                    localStorage.setItem(\'userData\', \'' + JSON.stringify(usermodule.getUserObjectFromRequest(req)) + '\'); \
-                  </script> \
-                </body> \
-              </html>'
-            );
+          <html> \
+            <head></head> \
+            <body> \
+              <script> \
+                localStorage.setItem(\'userdata\', ' + usermodule.getTokenFromRequest(req) + ') \
+                console.log(localStorage.getItem(\'userdata\')); \
+              </script> \
+            </body> \
+          </html>');
         });
     };
     return mlcl_auth_saml2;
