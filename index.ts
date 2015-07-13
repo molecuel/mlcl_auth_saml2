@@ -99,13 +99,12 @@ class mlcl_auth_saml2 {
     app.post('/login/saml2/callback',
       passport.authenticate('wsfed-saml2', { failureRedirect: '/', failureFlash: false }),
       function(req, res) {
-        console.log(req.user);
         res.status(200).send('\
           <html> \
             <head></head> \
             <body> \
               <script> \
-                localStorage.setItem(\'userdata\', '+ usermodule.getTokenFromRequest(req) + ') \
+                localStorage.setItem(\'userdata\', \''+ usermodule.getUserObjectFromRequest(req) + '\') \
                 console.log(localStorage.getItem(\'userdata\')); \
               </script> \
             </body> \
