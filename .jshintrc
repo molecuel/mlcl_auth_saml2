@@ -17,6 +17,7 @@
   "undef": true,
   "quotmark": "single",
   "plusplus": false,
+  "multistr": true,
   "boss": true,
   "trailing": true,
   "laxbreak": true,
