@@ -67,8 +67,10 @@ class mlcl_auth_saml2 {
           }
           if(doc) {
             userfieldmapping(doc);
-            console.log(doc);
             doc.save(function(err) {
+              if(err) {
+                molecuel.log.error('mlcl_auth_saml2', err.message, err);
+              }
               done(err, doc);
             });
           } else {
@@ -77,6 +79,9 @@ class mlcl_auth_saml2 {
             userfieldmapping(user);
             console.log(user);
             user.save(function(err) {
+              if(err) {
+                molecuel.log.error('mlcl_auth_saml2', err.message, err);
+              }
               done(err, user);
             });
           }
@@ -87,7 +92,7 @@ class mlcl_auth_saml2 {
     }
   }
 
-  middleware(config, app, mod) {
+  middleware(config, app) {
     let usermodule = molecuel.modules.user.module;
     let passport = usermodule.passport;
     app.get('/login/saml2',

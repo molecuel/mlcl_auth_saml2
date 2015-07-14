@@ -51,8 +51,10 @@ var mlcl_auth_saml2 = (function () {
                     };
                     if (doc) {
                         userfieldmapping(doc);
-                        console.log(doc);
                         doc.save(function (err) {
+                            if (err) {
+                                molecuel.log.error('mlcl_auth_saml2', err.message, err);
+                            }
                             done(err, doc);
                         });
                     }
@@ -62,6 +64,9 @@ var mlcl_auth_saml2 = (function () {
                         userfieldmapping(user);
                         console.log(user);
                         user.save(function (err) {
+                            if (err) {
+                                molecuel.log.error('mlcl_auth_saml2', err.message, err);
+                            }
                             done(err, user);
                         });
                     }
@@ -69,7 +74,7 @@ var mlcl_auth_saml2 = (function () {
             }));
         }
     };
-    mlcl_auth_saml2.prototype.middleware = function (config, app, mod) {
+    mlcl_auth_saml2.prototype.middleware = function (config, app) {
         var usermodule = molecuel.modules.user.module;
         var passport = usermodule.passport;
         app.get('/login/saml2', passport.authenticate('wsfed-saml2', { failureRedirect: '/', failureFlash: false }), function (req, res) {
