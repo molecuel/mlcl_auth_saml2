@@ -77,10 +77,10 @@ var mlcl_auth_saml2 = (function () {
     mlcl_auth_saml2.prototype.middleware = function (config, app) {
         var usermodule = molecuel.modules.user.module;
         var passport = usermodule.passport;
-        app.get('/login/saml2', passport.authenticate('wsfed-saml2', { failureRedirect: '/', failureFlash: false }), function (req, res) {
+        app.get('/login/saml2', passport.authenticate('wsfed-saml2', { failureRedirect: '/', failureFlash: false, session: false }), function (req, res) {
             res.redirect('/');
         });
-        app.post('/login/saml2/callback', passport.authenticate('wsfed-saml2', { failureRedirect: '/', failureFlash: false }), function (req, res) {
+        app.post('/login/saml2/callback', passport.authenticate('wsfed-saml2', { failureRedirect: '/', failureFlash: false, session: false }), function (req, res) {
             res.status(200).send('\
           <html> \
             <head></head> \

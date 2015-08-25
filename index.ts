@@ -96,13 +96,13 @@ class mlcl_auth_saml2 {
     let usermodule = molecuel.modules.user.module;
     let passport = usermodule.passport;
     app.get('/login/saml2',
-      passport.authenticate('wsfed-saml2', { failureRedirect: '/', failureFlash: false }),
+      passport.authenticate('wsfed-saml2', { failureRedirect: '/', failureFlash: false, session: false }),
       function(req, res) {
         res.redirect('/');
       }
     );
     app.post('/login/saml2/callback',
-      passport.authenticate('wsfed-saml2', { failureRedirect: '/', failureFlash: false }),
+      passport.authenticate('wsfed-saml2', { failureRedirect: '/', failureFlash: false, session: false }),
       function(req, res) {
         res.status(200).send('\
           <html> \
