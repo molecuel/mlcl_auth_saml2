@@ -1,5 +1,3 @@
-/// <reference path="./typings/node/node.d.ts"/>
-/// <reference path="./typings/passport/passport.d.ts"/>
 var wsfedsaml2 = require('passport-wsfed-saml2').Strategy;
 var _ = require('lodash');
 var molecuel;
@@ -48,6 +46,7 @@ var mlcl_auth_saml2 = (function () {
                             user.name.last = profile.lastname;
                             user.email = profile.email;
                         }
+                        user.lastlogin = new Date();
                     };
                     if (doc) {
                         userfieldmapping(doc);
@@ -62,7 +61,6 @@ var mlcl_auth_saml2 = (function () {
                         var user = new _this.usermodel();
                         user.authtype = 'saml2';
                         userfieldmapping(user);
-                        console.log(user);
                         user.save(function (err) {
                             if (err) {
                                 molecuel.log.error('mlcl_auth_saml2', err.message, err);
@@ -81,12 +79,15 @@ var mlcl_auth_saml2 = (function () {
             res.redirect('/');
         });
         app.post('/login/saml2/callback', passport.authenticate('wsfed-saml2', { failureRedirect: '/', failureFlash: false, session: false }), function (req, res) {
+            var userObject = usermodule.getUserObjectFromRequest(req);
+            molecuel.log.info('mlcl_user', 'authenticated', { username: userObject.name, _id: userObject._id, method: 'saml2' });
+            molecuel.log.info('mlcl_auth_saml2', 'authenticated', { username: userObject.name, _id: userObject._id, method: 'saml2' });
             res.status(200).send('\
           <html> \
             <head></head> \
             <body> \
               <script> \
-                localStorage.setItem(\'userData\', \'' + JSON.stringify(usermodule.getUserObjectFromRequest(req)) + '\'); \
+                localStorage.setItem(\'userData\', \'' + JSON.stringify(userObject) + '\'); \
                 console.log(localStorage.getItem(\'userData\')); \
               </script> \
             </body> \

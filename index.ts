@@ -40,8 +40,6 @@ class mlcl_auth_saml2 {
         protocol: 'samlp',
         cert: conf.authtypes.saml2.cert
       },(profile, done) => {
-        // @todo Check if the user is already in the database
-        // use mappings?
         let unamefield = 'username';
         if(conf.authtypes.saml2.fieldmappings && conf.authtypes.saml2.fieldmappings.username) {
           unamefield = conf.authtypes.saml2.fieldmappings.username;
@@ -64,6 +62,7 @@ class mlcl_auth_saml2 {
               user.name.last = profile.lastname;
               user.email = profile.email;
             }
+            user.lastlogin = new Date();
           }
           if(doc) {
             userfieldmapping(doc);
@@ -77,7 +76,6 @@ class mlcl_auth_saml2 {
             let user = new this.usermodel();
             user.authtype = 'saml2';
             userfieldmapping(user);
-            console.log(user);
             user.save(function(err) {
               if(err) {
                 molecuel.log.error('mlcl_auth_saml2', err.message, err);
@@ -86,8 +84,6 @@ class mlcl_auth_saml2 {
             });
           }
         });
-      //  this.usermodel.find
-        // add the specific data to the user with a pre save handler
       }));
     }
   }
@@ -104,17 +100,19 @@ class mlcl_auth_saml2 {
     app.post('/login/saml2/callback',
       passport.authenticate('wsfed-saml2', { failureRedirect: '/', failureFlash: false, session: false }),
       function(req, res) {
+        var userObject = usermodule.getUserObjectFromRequest(req);
+        molecuel.log.info('mlcl_user', 'authenticated', {username: userObject.name, _id: userObject._id, method: 'saml2'});
+        molecuel.log.info('mlcl_auth_saml2', 'authenticated', {username: userObject.name, _id: userObject._id, method: 'saml2'});
         res.status(200).send('\
           <html> \
             <head></head> \
             <body> \
               <script> \
-                localStorage.setItem(\'userData\', \''+ JSON.stringify(usermodule.getUserObjectFromRequest(req)) + '\'); \
+                localStorage.setItem(\'userData\', \''+ JSON.stringify(userObject) + '\'); \
                 console.log(localStorage.getItem(\'userData\')); \
               </script> \
             </body> \
           </html>');
-//        res.redirect('/');
       }
     );
   }
