@@ -40,7 +40,6 @@ class mlcl_auth_saml2 {
         protocol: 'samlp',
         cert: conf.authtypes.saml2.cert
       },(profile, done) => {
-        this.molecuel.log.debug("mlcl_auth_saml2", JSON.stringify(profile));
         let unamefield = 'username';
         if(conf.authtypes.saml2.fieldmappings && conf.authtypes.saml2.fieldmappings.username) {
           unamefield = conf.authtypes.saml2.fieldmappings.username;
@@ -54,6 +53,7 @@ class mlcl_auth_saml2 {
                 reverseMappings[conf.authtypes.saml2.fieldmappings[fieldname]] = fieldname;
               });
               _.each(reverseMappings, (fieldname) => {
+                this.molecuel.log.debug("mlcl_auth_saml2", fieldname + " " + conf.authtypes.saml2.fieldmappings[fieldname] + " " + profile[conf.authtypes.saml2.fieldmappings[fieldname]]);
                 _.set(user, fieldname, profile[conf.authtypes.saml2.fieldmappings[fieldname]]);
               });
             } else {

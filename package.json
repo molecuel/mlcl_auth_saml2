@@ -1,6 +1,6 @@
 {
   "name": "mlcl_auth_saml2",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "dependencies": {
     "lodash": "^3.10.0",
     "passport-wsfed-saml2": "^2.3.0"
