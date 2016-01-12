@@ -24,6 +24,7 @@ var mlcl_auth_saml2 = (function () {
                 protocol: 'samlp',
                 cert: conf.authtypes.saml2.cert
             }, function (profile, done) {
+                _this.molecuel.log.debug("mlcl_auth_saml2", JSON.stringify(profile));
                 var unamefield = 'username';
                 if (conf.authtypes.saml2.fieldmappings && conf.authtypes.saml2.fieldmappings.username) {
                     unamefield = conf.authtypes.saml2.fieldmappings.username;
@@ -80,10 +81,8 @@ var mlcl_auth_saml2 = (function () {
         });
         app.post('/login/saml2/callback', passport.authenticate('wsfed-saml2', { failureRedirect: '/', failureFlash: false, session: false }), function (req, res) {
             var userObject = usermodule.getUserObjectFromRequest(req);
-            molecuel.log.info('mlcl_user', 'authenticated',
-              { username: userObject.username, name: userObject.name, _id: userObject._id, method: 'saml2' });
-            molecuel.log.info('mlcl_auth_saml2', 'authenticated',
-              { username: userObject.username, name: userObject.name,  _id: userObject._id, method: 'saml2' });
+            molecuel.log.info('mlcl_user', 'authenticated', { username: userObject.name, _id: userObject._id, method: 'saml2' });
+            molecuel.log.info('mlcl_auth_saml2', 'authenticated', { username: userObject.name, _id: userObject._id, method: 'saml2' });
             res.status(200).send('\
           <html> \
             <head></head> \

@@ -40,6 +40,7 @@ class mlcl_auth_saml2 {
         protocol: 'samlp',
         cert: conf.authtypes.saml2.cert
       },(profile, done) => {
+        this.molecuel.log.debug("mlcl_auth_saml2", JSON.stringify(profile));
         let unamefield = 'username';
         if(conf.authtypes.saml2.fieldmappings && conf.authtypes.saml2.fieldmappings.username) {
           unamefield = conf.authtypes.saml2.fieldmappings.username;
