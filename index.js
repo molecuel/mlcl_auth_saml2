@@ -32,11 +32,11 @@ var mlcl_auth_saml2 = (function () {
                 _this.usermodel.findOne({ username: susername }, function (err, doc) {
                     var userfieldmapping = function (user) {
                         if (conf.authtypes.saml2.fieldmappings) {
-                            var reverseMappings = {};
+                            var reverseMappings_1 = {};
                             _.each(Object.keys(conf.authtypes.saml2.fieldmappings), function (fieldname) {
-                                reverseMappings[conf.authtypes.saml2.fieldmappings[fieldname]] = fieldname;
+                                reverseMappings_1[conf.authtypes.saml2.fieldmappings[fieldname]] = fieldname;
                             });
-                            _.each(reverseMappings, function (fieldname) {
+                            _.each(reverseMappings_1, function (fieldname) {
                                 _this.molecuel.log.debug("mlcl_auth_saml2", fieldname + " " + conf.authtypes.saml2.fieldmappings[fieldname] + " " + profile[conf.authtypes.saml2.fieldmappings[fieldname]]);
                                 _.set(user, fieldname, profile[conf.authtypes.saml2.fieldmappings[fieldname]]);
                             });
@@ -55,18 +55,18 @@ var mlcl_auth_saml2 = (function () {
                             if (err) {
                                 molecuel.log.error('mlcl_auth_saml2', err.message, err);
                             }
-                            done(err, doc);
+                            done(err, doc.toObject());
                         });
                     }
                     else {
-                        var user = new _this.usermodel();
-                        user.authtype = 'saml2';
-                        userfieldmapping(user);
-                        user.save(function (err) {
+                        var user_1 = new _this.usermodel();
+                        user_1.authtype = 'saml2';
+                        userfieldmapping(user_1);
+                        user_1.save(function (err) {
                             if (err) {
                                 molecuel.log.error('mlcl_auth_saml2', err.message, err);
                             }
-                            done(err, user);
+                            done(err, user_1.toObject());
                         });
                     }
                 });
@@ -80,23 +80,24 @@ var mlcl_auth_saml2 = (function () {
             res.redirect('/');
         });
         app.post('/login/saml2/callback', passport.authenticate('wsfed-saml2', { failureRedirect: '/', failureFlash: false, session: false }), function (req, res) {
-            var userObject = usermodule.getUserObjectFromRequest(req);
-            molecuel.log.info('mlcl_user', 'authenticated', { username: userObject.name, _id: userObject._id, method: 'saml2' });
-            molecuel.log.info('mlcl_auth_saml2', 'authenticated', { username: userObject.name, _id: userObject._id, method: 'saml2' });
-            res.status(200).send('\
-          <html> \
-            <head></head> \
-            <body> \
-              <script> \
-                localStorage.setItem(\'userData\', \'' + JSON.stringify(userObject) + '\'); \
-                console.log(localStorage.getItem(\'userData\')); \
-              </script> \
-            </body> \
-          </html>');
+            usermodule.getUserObjectFromRequest(req, function (err, userObject) {
+                molecuel.log.info('mlcl_user', 'authenticated', { username: userObject.name, _id: userObject._id, method: 'saml2' });
+                molecuel.log.info('mlcl_auth_saml2', 'authenticated', { username: userObject.name, _id: userObject._id, method: 'saml2' });
+                res.status(200).send('\
+            <html> \
+              <head></head> \
+              <body> \
+                <script> \
+                  localStorage.setItem(\'userData\', \'' + JSON.stringify(userObject) + '\'); \
+                  console.log(localStorage.getItem(\'userData\')); \
+                </script> \
+              </body> \
+            </html>');
+            });
         });
     };
     return mlcl_auth_saml2;
-})();
+}());
 var instance = null;
 var getInstance = function () {
     return instance || (instance = new mlcl_auth_saml2());
