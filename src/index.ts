@@ -1,3 +1,4 @@
+'use strict'
 /**
  * Created by Dominic Böttger on 10.06.2015
  * INSPIRATIONlabs GmbH
