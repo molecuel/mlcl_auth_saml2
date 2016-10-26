@@ -94,7 +94,23 @@ class mlcl_auth_saml2 {
         res.status(200).send(
           `<html>
             <head></head>
-            <body></body>
+            <body>
+              <script>
+                var getUrlVars = function getUrlVars()
+                {
+                    let vars = {};
+                    let hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+                    for(var i = 0; i < hashes.length; i++)
+                    {
+                        let hash = hashes[i].split('=');
+                        vars[hash[0]] = hash[1];
+                    }
+                    return vars;
+                }
+                var params = getUrlVars();
+                localStorage.setItem('samlparams', JSON.stringify(params));
+              </script>
+            </body>
           </html>`
         )
       }
@@ -116,6 +132,13 @@ class mlcl_auth_saml2 {
               <head></head>
               <body>
                 <script>
+                  var params = JSON.parse(localStorage.getItem('samlparams'));
+                  localStorage.removeItem('samlparams);
+                  if(params) {
+                    if(params.fwdurl) {
+                      window.location = params.fwdurl + '?token='+`+userObject.token+`;
+                    }
+                  }
                   localStorage.setItem('userData', `+ JSON.stringify(userObject) + `); 
                   console.log(localStorage.getItem('userData'));
                 </script>
