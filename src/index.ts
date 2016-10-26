@@ -180,12 +180,13 @@ class mlcl_auth_saml2 {
                   localStorage.removeItem('samlparams');
                   if(params) {
                     if(params.fwdurl) {`
+                      + 'params.fwdurl = decodeURIComponent(params.fwdurl);'
                       + 'var url = addParameter(params.fwdurl,\'token\', \''+userObject.token+'\', false);'
                       + 'window.location = url;'+
                     `}  
                   }
                   localStorage.setItem('userData', `+ JSON.stringify(userObject) + `); 
-                  console.log(`+JSON.stringify(userObject.token)+`);
+                  console.log(`+JSON.stringify(userObject)+`);
                 </script>
               </body>
             </html>`);
