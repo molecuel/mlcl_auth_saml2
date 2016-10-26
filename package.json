@@ -25,7 +25,6 @@
     "test": "mocha -R spec"
   },
   "description": "Saml2 authentication for molecuel CMS",
-  "main": "index.js",
   "directories": {
     "test": "test"
   },

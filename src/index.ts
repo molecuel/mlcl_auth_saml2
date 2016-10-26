@@ -109,6 +109,7 @@ class mlcl_auth_saml2 {
                 }
                 var params = getUrlVars();
                 localStorage.setItem('samlparams', JSON.stringify(params));
+                window.location = '/login/saml2';
               </script>
             </body>
           </html>`
@@ -133,14 +134,14 @@ class mlcl_auth_saml2 {
               <body>
                 <script>
                   var params = JSON.parse(localStorage.getItem('samlparams'));
-                  localStorage.removeItem('samlparams);
+                  localStorage.removeItem('samlparams');
                   if(params) {
-                    if(params.fwdurl) {
-                      window.location = params.fwdurl + '?token='+`+userObject.token+`;
-                    }
+                    if(params.fwdurl) {`
+                      + 'window.location = params.fwdurl + \'?token=' + userObject.token + '\';' +
+                    `}
                   }
                   localStorage.setItem('userData', `+ JSON.stringify(userObject) + `); 
-                  console.log(localStorage.getItem('userData'));
+                  console.log(`+JSON.stringify(userObject.token)+`);
                 </script>
               </body>
             </html>`);
