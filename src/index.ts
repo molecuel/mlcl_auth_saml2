@@ -180,7 +180,6 @@ class mlcl_auth_saml2 {
                   localStorage.removeItem('samlparams');
                   if(params) {
                     if(params.fwdurl) {`
-                      + 'params.fwdurl = encodeURI(params.fwdurl);'
                       + 'var url = addParameter(params.fwdurl,\'token\', \''+userObject.token+'\', false);'
                       + 'window.location = url;'+
                     `}  
