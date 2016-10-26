@@ -1,6 +1,3 @@
-/// <reference path="./typings/node/node.d.ts"/>
-/// <reference path="./typings/passport/passport.d.ts"/>
-
 /**
  * Created by Dominic Böttger on 10.06.2015
  * INSPIRATIONlabs GmbH
@@ -92,6 +89,16 @@ class mlcl_auth_saml2 {
   middleware(config, app) {
     let usermodule = molecuel.modules.user.module;
     let passport = usermodule.passport;
+    app.get('/login/saml2/pre',
+      function(req, res) {
+        res.status(200).send(
+          `<html>
+            <head></head>
+            <body></body>
+          </html>`
+        )
+      }
+    );
     app.get('/login/saml2',
       passport.authenticate('wsfed-saml2', { failureRedirect: '/', failureFlash: false, session: false }),
       function(req, res) {
@@ -104,16 +111,16 @@ class mlcl_auth_saml2 {
         usermodule.getUserObjectFromRequest(req, function(err, userObject) {
           molecuel.log.info('mlcl_user', 'authenticated', {username: userObject.name, _id: userObject._id, method: 'saml2'});
           molecuel.log.info('mlcl_auth_saml2', 'authenticated', {username: userObject.name, _id: userObject._id, method: 'saml2'});
-          res.status(200).send('\
-            <html> \
-              <head></head> \
-              <body> \
-                <script> \
-                  localStorage.setItem(\'userData\', \''+ JSON.stringify(userObject) + '\'); \
-                  console.log(localStorage.getItem(\'userData\')); \
-                </script> \
-              </body> \
-            </html>');
+          res.status(200).send(`
+            <html>
+              <head></head>
+              <body>
+                <script>
+                  localStorage.setItem('userData', `+ JSON.stringify(userObject) + `); 
+                  console.log(localStorage.getItem('userData'));
+                </script>
+              </body>
+            </html>`);
         });
       }
     );

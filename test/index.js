@@ -9,7 +9,7 @@ var assert = require('assert'),
   mlcl_database = require('mlcl_database'),
   mlcl_elastic = require('mlcl_elastic'),
   mlcl_elements = require('mlcl_elements'),
-  mlcl_auth_saml2 = require('../');
+  mlcl_auth_saml2 = require('../dist');
 
 describe('mlcl_auth_saml2', function(){
   //var mytestobject;
