@@ -99,11 +99,11 @@ class mlcl_auth_saml2 {
               <script>
                 var getUrlVars = function getUrlVars()
                 {
-                    let vars = {};
-                    let hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+                    var vars = {};
+                    var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
                     for(var i = 0; i < hashes.length; i++)
                     {
-                        let hash = hashes[i].split('=');
+                        var hash = hashes[i].split('=');
                         vars[hash[0]] = decodeURIComponent(hash[1]);
                     }
                     return vars;
@@ -184,10 +184,10 @@ class mlcl_auth_saml2 {
                       + 'var url = addParameter(params.fwdurl,\'token\', \''+userObject.token+'\', false);'
                       + 'window.location = url;'+
                     `}  
-                  }
-                  localStorage.setItem('userData', `+ JSON.stringify(userObject) + `); 
-                  console.log(`+JSON.stringify(userObject)+`);
-                </script>
+                  }`
+                  + 'localStorage.setItem(\'userData\', \''+ JSON.stringify(userObject) + '\');' 
+                  + 'console.log(\''+JSON.stringify(userObject)+'\');' +
+                `</script>
               </body>
             </html>`);
         });
