@@ -185,8 +185,7 @@ class mlcl_auth_saml2 {
                       + 'window.location = url;'+
                     `}  
                   }`
-                  + 'localStorage.setItem(\'userData\', \''+ JSON.stringify(userObject) + '\');' 
-                  + 'console.log(\''+JSON.stringify(userObject)+'\');' +
+                  + 'localStorage.setItem(\'userData\', \''+ JSON.stringify(userObject) + '\');' +
                 `</script>
               </body>
             </html>`);
